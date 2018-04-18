@@ -13,10 +13,23 @@
 
 -- connect to database with: mysql --user=root --password
 -- paste all which is following into the console to create the database
+DROP USER 'sec_read'@'localhost';
+DROP USER 'sec_write'@'localhost';
+FLUSH PRIVILEGES;
+
+CREATE USER 'sec_read'@'localhost' IDENTIFIED BY 'pai1hdsfa!shjASDFfdpasdhf';
+CREATE USER 'sec_write'@'localhost' IDENTIFIED BY 'asdhfpoASDF!1dsafhaoidsfj';
+GRANT SELECT ON sec.* TO 'sec_read'@'localhost';
+GRANT INSERT ON sec.* TO 'sec_write'@'localhost';
+FLUSH PRIVILEGES;
+
 CREATE SCHEMA IF NOT EXISTS `sec` DEFAULT CHARACTER SET utf8;
 USE `sec`;
 
+DROP TABLE IF EXISTS `sec`.`User_Assurance`;
+DROP TABLE IF EXISTS `sec`.`Assurance`;
 DROP TABLE IF EXISTS `sec`.`User`;
+
 CREATE TABLE IF NOT EXISTS `sec`.`User` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `Forename` VARCHAR(45) NOT NULL,
@@ -28,15 +41,15 @@ CREATE TABLE IF NOT EXISTS `sec`.`User` (
     PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `sec`.`Assurance`;
+
 CREATE TABLE IF NOT EXISTS `sec`.`Assurance` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `Runtime` INT NOT NULL,
     `Payment_Method` VARCHAR(64) NOT NULL,
-    PRIMARY KEY (`id`),
+    PRIMARY KEY (`id`)
 );
 
-DROP TABLE IF EXISTS `sec`.`User_Assurance`;
+
 CREATE TABLE IF NOT EXISTS `sec`.`User_Assurance` (
     `id_User` INT NOT NULL,
     `id_Assurance` INT NOT NULL,
