@@ -1,0 +1,2 @@
+PEM-Passphrase CA = 123123
+CA-Common Name = SEC_UE-CA
