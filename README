@@ -1,0 +1,9 @@
+In das Verzeichnis des Projekts gehen:
+
+./gradlew build
+
+Danach kann das JAR File gestartet werden:
+
+java -jar build/libs/gs-validating-form-input-0.1.0.jar
+
+Der Server läuft jetzt auf http://localhost:8080
