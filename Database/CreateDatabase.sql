@@ -13,14 +13,14 @@
 
 -- connect to database with: mysql --user=root --password
 -- paste all which is following into the console to create the database
-DROP USER 'sec_read'@'localhost';
-DROP USER 'sec_write'@'localhost';
+DROP USER 'sec_read'@'%';
+DROP USER 'sec_write'@'%';
 FLUSH PRIVILEGES;
 
-CREATE USER 'sec_read'@'localhost' IDENTIFIED BY 'pai1hdsfa!shjASDFfdpasdhf';
-CREATE USER 'sec_write'@'localhost' IDENTIFIED BY 'asdhfpoASDF!1dsafhaoidsfj';
-GRANT SELECT ON sec.* TO 'sec_read'@'localhost';
-GRANT INSERT ON sec.* TO 'sec_write'@'localhost';
+CREATE USER 'sec_read'@'%' IDENTIFIED BY 'pai1hdsfa!shjASDFfdpasdhf';
+CREATE USER 'sec_write'@'%' IDENTIFIED BY 'asdhfpoASDF!1dsafhaoidsfj';
+GRANT SELECT ON sec.* TO 'sec_read'@'%';
+GRANT INSERT ON sec.* TO 'sec_write'@'%';
 FLUSH PRIVILEGES;
 
 CREATE SCHEMA IF NOT EXISTS `sec` DEFAULT CHARACTER SET utf8;
@@ -73,3 +73,5 @@ INSERT INTO `sec`.`User` VALUES (
     "14257fabc8d199748b826b4deddec4e139b00595f5ad2751002875cec43258d9"
 );
 
+-- change the bind address from 127.0.0.1 to 0.0.0.0 in /etc/mysql/mysql.conf.d/mysqld.cnf
+-- you can connect from extern with:  mysql -u'sec_read' -p'pai1hdsfa!shjASDFfdpasdhf' --host=192.168.58.51 sec
