@@ -59,9 +59,9 @@ public class WebController implements WebMvcConfigurer {
     @PostMapping("/userform")
     public String getUserData(@Valid UserForm userForm, BindingResult bindingResult) {
         if (checkMail(userForm.getClient())) {
-            return "redirect:/results";
+            return "redirect:/success";
         } else {
-            return "userform";
+            return "redirect:/failed";
         }
 
 
