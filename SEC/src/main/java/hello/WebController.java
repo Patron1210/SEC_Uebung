@@ -36,15 +36,12 @@ public class WebController implements WebMvcConfigurer {
     public String getUserData(@Valid UserForm userForm, BindingResult bindingResult) {
         if (checkMail(userForm.getClient())) {
             return "redirect:/results";
+        } else {
+            return "userform";
         }
-    }else
 
-    {
-        return "userform";
+
     }
-
-
-}
 
     @PostMapping("/")
     public String checkPersonInfo(@Valid PersonForm personForm, BindingResult bindingResult) {
@@ -79,9 +76,10 @@ public class WebController implements WebMvcConfigurer {
             password muss noch gehasht werden und gesaltet
 
             while (rs.next()) {
-                if (email.equals(rs.getString("Email")) && password.equals(rs.getString("Hash"))) ;
-                st.close();
-                return true;
+                if (email.equals(rs.getString("Email")) && password.equals(rs.getString("Hash"))) {
+                    st.close();
+                    return true;
+                }
             }
             st.close();
             return false;
@@ -113,9 +111,10 @@ public class WebController implements WebMvcConfigurer {
 
             // iterate through the java resultset
             while (rs.next()) {
-                if (email.equals(rs.getString("Email"))) ;
-                st.close();
-                return true;
+                if (email.equals(rs.getString("Email"))) {
+                    st.close();
+                    return true;
+                }
             }
             st.close();
             return false;
