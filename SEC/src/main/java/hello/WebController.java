@@ -18,18 +18,38 @@ public class WebController implements WebMvcConfigurer {
         registry.addViewController("/results").setViewName("results");
     }
 
+    @GetMapping("/userform")
+    public String showForm(UserForm userForm) {
+
+        return "userform";
+    }
+
     @GetMapping("/")
     public String showForm(PersonForm personForm) {
-        return "form";
+
+        return "loginform";
+    }
+
+
+    @PostMapping("/userform")
+    public String getUserData(@Valid UserForm userForm, BindingResult bindingResult) {
+        if(userForm.getClient().equals("Hans")){ // Query DB
+            return "redirect:/results";
+        }else{
+            return "userform";
+        }
+
+
     }
 
     @PostMapping("/")
     public String checkPersonInfo(@Valid PersonForm personForm, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
-            return "form";
+            return "loginform";
         }
 
-        return "redirect:/results";
+        return "redirect:/userform";
     }
+
+
 }
