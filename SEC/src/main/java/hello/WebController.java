@@ -36,15 +36,12 @@ public class WebController implements WebMvcConfigurer {
     public String getUserData(@Valid UserForm userForm, BindingResult bindingResult) {
         if (checkMail(userForm.getClient())) {
             return "redirect:/results";
+        } else {
+            return "userform";
         }
-    }else
 
-    {
-        return "userform";
+
     }
-
-
-}
 
     @PostMapping("/")
     public String checkPersonInfo(@Valid PersonForm personForm, BindingResult bindingResult) {
@@ -60,9 +57,7 @@ public class WebController implements WebMvcConfigurer {
             // create our mysql database connection
             String myDriver = "org.gjt.mm.mysql.Driver";
             String myUrl = "jdbc:mysql://192.168.56.3";
-            Class.forName(myDriver12defghijklnrtuvtfjvcluvlgivibifvhkthgrtueflubjt
-            12defghijklnrtuvtfjvcluvlgivibifvhkthgrtueflubjt
-            );
+            Class.forName(myDriver);
             //TODO: Passwort darf nicht als Klartext da stehen
             Connection conn = DriverManager.getConnection(myUrl, "sec_read", "pai1hdsfa!shjASDFfdpasdhf");
 
@@ -77,10 +72,49 @@ public class WebController implements WebMvcConfigurer {
             ResultSet rs = st.executeQuery(query);
 
             // iterate through the java resultset
+            TODO:
+            password muss noch gehasht werden und gesaltet
+
             while (rs.next()) {
-                if (email.equals(rs.getString("Email")) && email.equals(rs.getString("Hash"))) ;
-                st.close();
-                return true;
+                if (email.equals(rs.getString("Email")) && password.equals(rs.getString("Hash"))) {
+                    st.close();
+                    return true;
+                }
+            }
+            st.close();
+            return false;
+        } catch (Exception e) {
+            System.err.println("Got an exception! ");
+            System.err.println(e.getMessage());
+        }
+    }
+
+
+    public boolean checkMail(String email) {
+        try {
+            // create our mysql database connection
+            String myDriver = "org.gjt.mm.mysql.Driver";
+            String myUrl = "jdbc:mysql://192.168.56.3";
+            Class.forName(myDriver);
+            //TODO: Passwort darf nicht als Klartext da stehen
+            Connection conn = DriverManager.getConnection(myUrl, "sec_read", "pai1hdsfa!shjASDFfdpasdhf");
+
+            // our SQL SELECT query.
+            // if you only need a few columns, specify them by name instead of using "*"
+            String query = "SELECT Email FROM User";
+
+            // create the java statement
+            Statement st = conn.createStatement();
+
+            // execute the query, and get a java resultset
+            ResultSet rs = st.executeQuery(query);
+
+            // iterate through the java resultset
+            while (rs.next()) {
+                if (email.equals(rs.getString("Email"))) {
+                    st.close();
+                    return true;
+                }
             }
             st.close();
             return false;
@@ -91,38 +125,3 @@ public class WebController implements WebMvcConfigurer {
     }
 
 }
-
-public boolean checkMail(String email){
-        try{
-        // create our mysql database connection
-        String myDriver="org.gjt.mm.mysql.Driver";
-        String myUrl="jdbc:mysql://192.168.56.3";
-        Class.forName(myDriver);
-        //TODO: Passwort darf nicht als Klartext da stehen
-        Connection conn=DriverManager.getConnection(myUrl,"sec_read","pai1hdsfa!shjASDFfdpasdhf");
-
-        // our SQL SELECT query.
-        // if you only need a few columns, specify them by name instead of using "*"
-        String query="SELECT Email FROM User";
-
-        // create the java statement
-        Statement st=conn.createStatement();
-
-        // execute the query, and get a java resultset
-        ResultSet rs=st.executeQuery(query);
-
-        // iterate through the java resultset
-        while(rs.next()){
-        if(email.equals(rs.getString("Email")));
-        st.close();
-        return true;
-        }
-        st.close();
-        return false;
-        }catch(Exception e){
-        System.err.println("Got an exception! ");
-        System.err.println(e.getMessage());
-        }
-        }
-
-        }
