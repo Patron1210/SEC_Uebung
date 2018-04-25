@@ -72,8 +72,7 @@ public class WebController implements WebMvcConfigurer {
             ResultSet rs = st.executeQuery(query);
 
             // iterate through the java resultset
-            TODO:
-            password muss noch gehasht werden und gesaltet
+            //TODO: password muss noch gehasht werden und gesaltet
 
             while (rs.next()) {
                 if (email.equals(rs.getString("Email")) && password.equals(rs.getString("Hash"))) {
