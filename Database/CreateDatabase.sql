@@ -13,22 +13,22 @@
 
 -- connect to database with: mysql --user=root --password
 -- paste all which is following into the console to create the database
-DROP USER 'sec_read'@'%';
-DROP USER 'sec_write'@'%';
-FLUSH PRIVILEGES;
-
-CREATE USER 'sec_read'@'%' IDENTIFIED BY 'pai1hdsfa!shjASDFfdpasdhf';
-CREATE USER 'sec_write'@'%' IDENTIFIED BY 'asdhfpoASDF!1dsafhaoidsfj';
-GRANT SELECT ON sec.* TO 'sec_read'@'%';
-GRANT INSERT ON sec.* TO 'sec_write'@'%';
-FLUSH PRIVILEGES;
-
 CREATE SCHEMA IF NOT EXISTS `sec` DEFAULT CHARACTER SET utf8;
 USE `sec`;
 
+DROP TABLE IF EXISTS `sec`.`Employee`;
 DROP TABLE IF EXISTS `sec`.`User_Assurance`;
 DROP TABLE IF EXISTS `sec`.`Assurance`;
 DROP TABLE IF EXISTS `sec`.`User`;
+
+CREATE TABLE IF NOT EXISTS `sec`.`Employee` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `Email` VARCHAR(45) NOT NULL,
+    `Salt` VARCHAR(128) NOT NULL,
+    `Hash` VARCHAR(64) NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
 
 CREATE TABLE IF NOT EXISTS `sec`.`User` (
     `id` INT NOT NULL AUTO_INCREMENT,
@@ -36,8 +36,6 @@ CREATE TABLE IF NOT EXISTS `sec`.`User` (
     `Surname` VARCHAR(45) NOT NULL,
     `Email` VARCHAR(45) NOT NULL,
     `Birthday` DATE NOT NULL,
-    `Salt` VARCHAR(128) NOT NULL,
-    `Hash` VARCHAR(64) NOT NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -63,15 +61,11 @@ CREATE TABLE IF NOT EXISTS `sec`.`User_Assurance` (
 
 -- default password is solchlangepasswörtersindblöde
 -- berechnung erfolgt folgerndermassen:  (echo -n "4nXgryJGKZwKvmQRecc9DyfNEbWdEpAjSsdSkhPSS47aewyfKCbeUM999NangwLu9GhTCggc4fATxUzRqXCSUvtj2austS9Abvdg4QLHjSCAnjtG7QsG9X9FXmRTj5dq" && echo -n "solchlangepasswörtersindblöde") | sha256sum
-INSERT INTO `sec`.`User` VALUES (
+INSERT INTO `sec`.`Employee` VALUES (
     NULL,
-    "Forname1",
-    "Surname1",
     "lucker@not-existing.at",
-    "1990-10-21",
     "4nXgryJGKZwKvmQRecc9DyfNEbWdEpAjSsdSkhPSS47aewyfKCbeUM999NangwLu9GhTCggc4fATxUzRqXCSUvtj2austS9Abvdg4QLHjSCAnjtG7QsG9X9FXmRTj5dq",
     "14257fabc8d199748b826b4deddec4e139b00595f5ad2751002875cec43258d9"
 );
 
--- change the bind address from 127.0.0.1 to 0.0.0.0 in /etc/mysql/mysql.conf.d/mysqld.cnf
--- you can connect from extern with:  mysql -u'sec_read' -p'pai1hdsfa!shjASDFfdpasdhf' --host=192.168.58.51 sec
+
