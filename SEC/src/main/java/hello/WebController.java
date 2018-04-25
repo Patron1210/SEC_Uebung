@@ -15,6 +15,8 @@ import java.sql.*;
 @Controller
 public class WebController implements WebMvcConfigurer {
 
+    boolean isLoged = false;
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/results").setViewName("results");
@@ -22,8 +24,11 @@ public class WebController implements WebMvcConfigurer {
 
     @GetMapping("/userform")
     public String showForm(UserForm userForm) {
+        if(isLoged == true) {
+            return "userform";
+        }else{
 
-        return "userform";
+            return "redirect:/";        }
     }
 
     @GetMapping("/")
