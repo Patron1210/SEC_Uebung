@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
 @Controller
@@ -77,7 +78,7 @@ public class WebController implements WebMvcConfigurer {
 
             while (rs.next()) {
                 String salt = rs.getString("Salt");
-                String hash = org.apache.commons.codec.digest.DigestUtils.sha256Hex(salt + password);
+                String hash = sha256(salt + password);
                 if (hash.equals(rs.getString("Hash"))) {
                     st.close();
                     return true;
@@ -126,6 +127,17 @@ public class WebController implements WebMvcConfigurer {
             System.err.println(e.getMessage());
             return false;
         }
+    }
+
+    private String sha256(String input) throws NoSuchAlgorithmException {
+        MessageDigest mDigest = MessageDigest.getInstance("SHA256");
+        byte[] result = mDigest.digest(input.getBytes());
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+
+        return sb.toString();
     }
 
 }
