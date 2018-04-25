@@ -8,7 +8,6 @@ public class UserForm {
     @NotNull
     private String client;
 
-
     public String getClient() {
         return this.client;
     }
