@@ -85,6 +85,7 @@ public class WebController implements WebMvcConfigurer {
         } catch (Exception e) {
             System.err.println("Got an exception! ");
             System.err.println(e.getMessage());
+            return false;
         }
     }
 
@@ -120,6 +121,7 @@ public class WebController implements WebMvcConfigurer {
         } catch (Exception e) {
             System.err.println("Got an exception! ");
             System.err.println(e.getMessage());
+            return false;
         }
     }
 
