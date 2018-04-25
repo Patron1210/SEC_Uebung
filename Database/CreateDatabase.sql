@@ -13,6 +13,16 @@
 
 -- connect to database with: mysql --user=root --password
 -- paste all which is following into the console to create the database
+DROP USER 'sec_read'@'%';
+DROP USER 'sec_write'@'%';
+FLUSH PRIVILEGES;
+
+CREATE USER 'sec_read'@'%' IDENTIFIED BY 'pai1hdsfa!shjASDFfdpasdhf';
+CREATE USER 'sec_write'@'%' IDENTIFIED BY 'asdhfpoASDF!1dsafhaoidsfj';
+GRANT SELECT ON sec.* TO 'sec_read'@'%';
+GRANT INSERT ON sec.* TO 'sec_write'@'%';
+FLUSH PRIVILEGES;
+
 CREATE SCHEMA IF NOT EXISTS `sec` DEFAULT CHARACTER SET utf8;
 USE `sec`;
 
