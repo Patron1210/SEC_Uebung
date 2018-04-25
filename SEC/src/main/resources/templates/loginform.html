@@ -3,7 +3,7 @@
 <form action="#" th:action="@{/}" th:object="${personForm}" method="post">
     <table>
         <tr>
-            <td>Name:</td>
+            <td>E-Mail:</td>
             <td><input type="text" th:field="*{name}" /></td>
             <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
         </tr>
