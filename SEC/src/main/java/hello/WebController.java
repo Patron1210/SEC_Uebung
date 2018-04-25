@@ -63,7 +63,8 @@ public class WebController implements WebMvcConfigurer {
 
             // our SQL SELECT query.
             // if you only need a few columns, specify them by name instead of using "*"
-            String query = "SELECT Email, Hash FROM User";
+            //TODO: Prepared Statement
+            String query = "SELECT Hash, Salt FROM User WHERE Email = '"+ email +"'";
 
             // create the java statement
             Statement st = conn.createStatement();
@@ -75,7 +76,9 @@ public class WebController implements WebMvcConfigurer {
             //TODO: password muss noch gehasht werden und gesaltet
 
             while (rs.next()) {
-                if (email.equals(rs.getString("Email")) && password.equals(rs.getString("Hash"))) {
+                String salt = rs.getString("Salt");
+                String hash = org.apache.commons.codec.digest.DigestUtils.sha256Hex(salt + password);
+                if (hash.equals(rs.getString("Hash"))) {
                     st.close();
                     return true;
                 }
@@ -83,7 +86,7 @@ public class WebController implements WebMvcConfigurer {
             st.close();
             return false;
         } catch (Exception e) {
-            System.err.println("Got an exception! ");
+            System.err.println("Wrong Login!");
             System.err.println(e.getMessage());
             return false;
         }
@@ -119,7 +122,7 @@ public class WebController implements WebMvcConfigurer {
             st.close();
             return false;
         } catch (Exception e) {
-            System.err.println("Got an exception! ");
+            System.err.println("Assurance User does not exist -> Exception");
             System.err.println(e.getMessage());
             return false;
         }
